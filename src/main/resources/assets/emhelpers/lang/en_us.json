@@ -1,0 +1,19 @@
+{
+  "emhelpers.option.on": "On",
+  "emhelpers.option.off": "Off",
+  "emhelpers.option.toggle": "%s: %s",
+  "emhelpers.option.value": "%s: %s",
+  "emhelpers.screen.hud_layout_editor": "HUD Layout Editor",
+  "emhelpers.hud.layout_editor.hint": "Drag panels. Right-click resets scale. Hold Ctrl to snap.",
+  "emhelpers.hud.layout_editor.save": "Save",
+  "emhelpers.hud.layout_editor.cancel": "Cancel",
+  "emhelpers.hud.layout_editor.reset_all": "Reset All",
+  "emhelpers.hud.layout_mode.anchor": "Anchor",
+  "emhelpers.hud.layout_mode.custom": "Custom",
+  "emhelpers.hud.anchor.top_left": "Top Left",
+  "emhelpers.hud.anchor.top_center": "Top Center",
+  "emhelpers.hud.anchor.top_right": "Top Right",
+  "emhelpers.hud.anchor.bottom_left": "Bottom Left",
+  "emhelpers.hud.anchor.bottom_center": "Bottom Center",
+  "emhelpers.hud.anchor.bottom_right": "Bottom Right"
+}
