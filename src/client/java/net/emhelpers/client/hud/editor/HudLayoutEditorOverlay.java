@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import net.emhelpers.client.EMHelpers;
 import net.emhelpers.client.hud.HudOverlayPlacement;
 import net.emhelpers.client.hud.layout.HudElementId;
 import net.emhelpers.client.hud.layout.HudLayoutConfig;
@@ -66,10 +65,14 @@ public final class HudLayoutEditorOverlay {
 	}
 
 	public static boolean open(MinecraftClient client) {
+		return open("emhelpers", client);
+	}
+
+	public static boolean open(String ownerModId, MinecraftClient client) {
 		if (active != null) {
 			return true;
 		}
-		if (!HudLayoutManager.beginEditorSession(client)) {
+		if (!HudLayoutManager.beginEditorSession(ownerModId, client)) {
 			return false;
 		}
 
@@ -125,7 +128,7 @@ public final class HudLayoutEditorOverlay {
 
 	private void render0(DrawContext context, int mouseX, int mouseY, @SuppressWarnings("unused") float delta) {
 		MinecraftClient client = MinecraftClient.getInstance();
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (client == null || config == null) {
 			active = null;
 			return;
@@ -147,7 +150,7 @@ public final class HudLayoutEditorOverlay {
 
 		HudLayoutEditorChrome.drawSnapGuides(context, activeGuides, width, height);
 
-		for (HudLayoutElement element : HudLayoutRegistry.all()) {
+		for (HudLayoutElement element : HudLayoutManager.editorElements()) {
 			HudElementId id = element.id();
 			HudLayoutDraft draft = HudLayoutManager.draftLayouts().get(id);
 			HudOverlayPlacement.PanelDimensions panel = dimensions.get(id);
@@ -227,7 +230,7 @@ public final class HudLayoutEditorOverlay {
 
 	private boolean mouseDragged(Click click, double offsetX, double offsetY) {
 		MinecraftClient client = MinecraftClient.getInstance();
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (client == null || config == null) {
 			active = null;
 			return true;
@@ -305,12 +308,12 @@ public final class HudLayoutEditorOverlay {
 
 	private void refreshDimensions(MinecraftClient client) {
 		dimensions.clear();
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config == null) {
 			return;
 		}
 
-		for (HudLayoutElement element : HudLayoutRegistry.all()) {
+		for (HudLayoutElement element : HudLayoutManager.editorElements()) {
 			dimensions.put(element.id(), HudLayoutManager.dimensions(element.id(), config, client));
 		}
 	}
@@ -318,7 +321,7 @@ public final class HudLayoutEditorOverlay {
 	@Nullable
 	private HudElementId hitElement(int mouseX, int mouseY) {
 		HudElementId hit = null;
-		for (HudLayoutElement element : HudLayoutRegistry.all()) {
+		for (HudLayoutElement element : HudLayoutManager.editorElements()) {
 			HudElementId id = element.id();
 			HudLayoutDraft draft = HudLayoutManager.draftLayouts().get(id);
 			HudOverlayPlacement.PanelDimensions panel = dimensions.get(id);
@@ -348,7 +351,7 @@ public final class HudLayoutEditorOverlay {
 
 		int width = client.getWindow().getScaledWidth();
 		int height = client.getWindow().getScaledHeight();
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config == null) {
 			return;
 		}
@@ -360,7 +363,7 @@ public final class HudLayoutEditorOverlay {
 	}
 
 	private void saveAndClose() {
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config != null) {
 			HudLayoutManager.saveDraft(config);
 		}
@@ -368,7 +371,7 @@ public final class HudLayoutEditorOverlay {
 	}
 
 	private void cancelAndClose() {
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config != null) {
 			HudLayoutManager.cancelEditor(config);
 		} else {

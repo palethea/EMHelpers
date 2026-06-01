@@ -1,6 +1,7 @@
 package net.emhelpers.client.hud.layout;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import net.emhelpers.client.EMHelpers;
 import net.emhelpers.client.hud.editor.HudLayoutEditorScreen;
@@ -21,6 +22,7 @@ public final class HudLayoutManager {
 
 	private static final Map<HudElementId, HudLayoutDraft> draftLayouts = new LinkedHashMap<>();
 	private static @Nullable Map<String, HudCustomLayoutEntry> layoutSnapshot;
+	private static @Nullable String editorOwnerModId;
 
 	private HudLayoutManager() {
 	}
@@ -135,10 +137,14 @@ public final class HudLayoutManager {
 	}
 
 	public static void openEditor(@Nullable MinecraftClient client) {
+		openEditor("emhelpers", client);
+	}
+
+	public static void openEditor(String ownerModId, @Nullable MinecraftClient client) {
 		if (client == null || HudLayoutEditorContext.isActive(client)) {
 			return;
 		}
-		if (!beginEditorSession(client)) {
+		if (!beginEditorSession(ownerModId, client)) {
 			return;
 		}
 
@@ -146,15 +152,20 @@ public final class HudLayoutManager {
 	}
 
 	public static boolean beginEditorSession(@Nullable MinecraftClient client) {
+		return beginEditorSession("emhelpers", client);
+	}
+
+	public static boolean beginEditorSession(String ownerModId, @Nullable MinecraftClient client) {
 		if (client == null) {
 			return false;
 		}
 
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = EMHelpers.hudConfig(ownerModId);
 		if (config == null) {
 			return false;
 		}
 
+		editorOwnerModId = ownerModId;
 		takeLayoutSnapshot(config);
 		seedDraftFromCurrent(client, config);
 		return true;
@@ -164,7 +175,7 @@ public final class HudLayoutManager {
 		draftLayouts.clear();
 		int screenWidth = client.getWindow().getScaledWidth();
 		int screenHeight = client.getWindow().getScaledHeight();
-		for (HudLayoutElement element : HudLayoutRegistry.all()) {
+		for (HudLayoutElement element : editorElements()) {
 			HudElementId id = element.id();
 			int scale = layoutScale(id, config);
 			HudOverlayPlacement.PanelDimensions dimensions = element.scaledDimensions(config, client, scale);
@@ -224,7 +235,7 @@ public final class HudLayoutManager {
 		int screenWidth,
 		int screenHeight
 	) {
-		for (HudLayoutElement element : HudLayoutRegistry.all()) {
+		for (HudLayoutElement element : editorElements()) {
 			HudElementId id = element.id();
 			int scale = 100;
 			HudOverlayPlacement.PanelDimensions dimensions = element.scaledDimensions(config, client, scale);
@@ -254,16 +265,27 @@ public final class HudLayoutManager {
 		}
 		config.save();
 		discardLayoutSnapshot();
+		editorOwnerModId = null;
 	}
 
 	public static void clearDraft() {
 		draftLayouts.clear();
+		editorOwnerModId = null;
 	}
 
 	public static void cancelEditor(HudLayoutConfig config) {
 		restoreLayoutSnapshot(config);
 		clearDraft();
 		discardLayoutSnapshot();
+		editorOwnerModId = null;
+	}
+
+	public static @Nullable HudLayoutConfig editorConfig() {
+		return editorOwnerModId == null ? null : EMHelpers.hudConfig(editorOwnerModId);
+	}
+
+	public static List<HudLayoutElement> editorElements() {
+		return editorOwnerModId == null ? List.of() : HudLayoutRegistry.all(editorOwnerModId);
 	}
 
 	private static void takeLayoutSnapshot(HudLayoutConfig config) {

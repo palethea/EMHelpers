@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import net.emhelpers.client.EMHelpers;
 import net.emhelpers.client.hud.HudOverlayPlacement;
 import net.emhelpers.client.hud.layout.HudElementId;
 import net.emhelpers.client.hud.layout.HudLayoutConfig;
@@ -100,12 +99,12 @@ public final class HudLayoutEditorScreen extends Screen {
 
 		HudLayoutEditorChrome.drawSnapGuides(context, activeGuides, width, height);
 
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config == null || client == null) {
 			return;
 		}
 
-		for (HudLayoutElement element : HudLayoutRegistry.all()) {
+		for (HudLayoutElement element : HudLayoutManager.editorElements()) {
 			HudElementId id = element.id();
 			HudLayoutDraft draft = HudLayoutManager.draftLayouts().get(id);
 			HudOverlayPlacement.PanelDimensions panel = dimensions.get(id);
@@ -190,7 +189,7 @@ public final class HudLayoutEditorScreen extends Screen {
 			return super.mouseDragged(click, offsetX, offsetY);
 		}
 
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config == null) {
 			return false;
 		}
@@ -264,23 +263,23 @@ public final class HudLayoutEditorScreen extends Screen {
 
 	private void refreshDimensions() {
 		dimensions.clear();
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config == null || client == null) {
 			return;
 		}
 
-		for (HudLayoutElement element : HudLayoutRegistry.all()) {
+		for (HudLayoutElement element : HudLayoutManager.editorElements()) {
 			dimensions.put(element.id(), HudLayoutManager.dimensions(element.id(), config, client));
 		}
 	}
 
 	private void seedMissingDraftLayouts() {
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config == null || client == null) {
 			return;
 		}
 
-		for (HudLayoutElement element : HudLayoutRegistry.all()) {
+		for (HudLayoutElement element : HudLayoutManager.editorElements()) {
 			HudElementId id = element.id();
 			if (HudLayoutManager.draftLayouts().containsKey(id)) {
 				continue;
@@ -308,7 +307,7 @@ public final class HudLayoutEditorScreen extends Screen {
 	@Nullable
 	private HudElementId hitElement(int mouseX, int mouseY) {
 		HudElementId hit = null;
-		for (HudLayoutElement element : HudLayoutRegistry.all()) {
+		for (HudLayoutElement element : HudLayoutManager.editorElements()) {
 			HudElementId id = element.id();
 			HudLayoutDraft draft = HudLayoutManager.draftLayouts().get(id);
 			HudOverlayPlacement.PanelDimensions panel = dimensions.get(id);
@@ -345,7 +344,7 @@ public final class HudLayoutEditorScreen extends Screen {
 	}
 
 	private void resetAllLayouts() {
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config == null || client == null) {
 			return;
 		}
@@ -357,7 +356,7 @@ public final class HudLayoutEditorScreen extends Screen {
 	}
 
 	private void saveAndClose() {
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config != null) {
 			HudLayoutManager.saveDraft(config);
 		}
@@ -365,7 +364,7 @@ public final class HudLayoutEditorScreen extends Screen {
 	}
 
 	private void cancelAndClose() {
-		HudLayoutConfig config = EMHelpers.hudConfig();
+		HudLayoutConfig config = HudLayoutManager.editorConfig();
 		if (config != null) {
 			HudLayoutManager.cancelEditor(config);
 		} else {
