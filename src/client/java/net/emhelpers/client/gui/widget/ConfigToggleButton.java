@@ -24,7 +24,7 @@ public final class ConfigToggleButton {
 	}
 
 	private static Text message(Text label, BooleanSupplier getter) {
-		Text state = Text.translatable(getter.getAsBoolean() ? EMHelpersTexts.OPTION_ON : EMHelpersTexts.OPTION_OFF);
-		return Text.translatable(EMHelpersTexts.OPTION_TOGGLE, label, state);
+		Text state = Text.translatable(getter.getAsBoolean() ? EMHelpersTexts.optionOn() : EMHelpersTexts.optionOff());
+		return Text.translatable(EMHelpersTexts.optionToggle(), label, state);
 	}
 }

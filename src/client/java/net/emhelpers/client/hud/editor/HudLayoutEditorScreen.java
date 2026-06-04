@@ -44,21 +44,21 @@ public final class HudLayoutEditorScreen extends Screen {
 	private boolean renderingParent;
 
 	public HudLayoutEditorScreen(@Nullable Screen parent) {
-		super(Text.translatable(EMHelpersTexts.SCREEN_HUD_LAYOUT_EDITOR));
+		super(Text.translatable(EMHelpersTexts.screenHudLayoutEditor()));
 		this.parent = parent;
 	}
 
 	@Override
 	protected void init() {
-		addDrawableChild(ButtonWidget.builder(Text.translatable(EMHelpersTexts.HUD_LAYOUT_EDITOR_RESET_ALL), button -> resetAllLayouts())
+		addDrawableChild(ButtonWidget.builder(Text.translatable(EMHelpersTexts.hudLayoutEditorResetAll()), button -> resetAllLayouts())
 			.width(100)
 			.position(width / 2 - 162, height - 28)
 			.build());
-		addDrawableChild(ButtonWidget.builder(Text.translatable(EMHelpersTexts.HUD_LAYOUT_EDITOR_SAVE), button -> saveAndClose())
+		addDrawableChild(ButtonWidget.builder(Text.translatable(EMHelpersTexts.hudLayoutEditorSave()), button -> saveAndClose())
 			.width(100)
 			.position(width / 2 - 52, height - 28)
 			.build());
-		addDrawableChild(ButtonWidget.builder(Text.translatable(EMHelpersTexts.HUD_LAYOUT_EDITOR_CANCEL), button -> cancelAndClose())
+		addDrawableChild(ButtonWidget.builder(Text.translatable(EMHelpersTexts.hudLayoutEditorCancel()), button -> cancelAndClose())
 			.width(100)
 			.position(width / 2 + 58, height - 28)
 			.build());
@@ -91,7 +91,7 @@ public final class HudLayoutEditorScreen extends Screen {
 		context.drawCenteredTextWithShadow(textRenderer, title, width / 2, 12, 0xFFFFFF);
 		context.drawCenteredTextWithShadow(
 			textRenderer,
-			Text.translatable(EMHelpersTexts.HUD_LAYOUT_EDITOR_HINT),
+			Text.translatable(EMHelpersTexts.hudLayoutEditorHint()),
 			width / 2,
 			24,
 			0xA0A0A0

@@ -52,7 +52,7 @@ public final class IntConfigSlider extends SliderWidget {
 	@Override
 	protected void updateMessage() {
 		Text value = Text.literal(String.valueOf(currentValue())).append(suffix);
-		setMessage(Text.translatable(EMHelpersTexts.OPTION_VALUE, label, value));
+		setMessage(Text.translatable(EMHelpersTexts.optionValue(), label, value));
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 import net.emhelpers.client.hud.layout.HudLayoutConfig;
+import net.emhelpers.client.util.EMHelpersTexts;
 import net.minecraft.util.Identifier;
 import org.jspecify.annotations.Nullable;
 
@@ -33,6 +34,10 @@ public final class EMHelpers {
 				Objects.requireNonNull(hideHudSupplier, "hideHudSupplier")
 			)
 		);
+	}
+
+	public static void registerTranslationPrefix(String prefix) {
+		EMHelpersTexts.setPrefix(Objects.requireNonNull(prefix, "prefix"));
 	}
 
 	public static Identifier id(String path) {

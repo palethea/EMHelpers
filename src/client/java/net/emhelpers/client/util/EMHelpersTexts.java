@@ -1,29 +1,88 @@
 package net.emhelpers.client.util;
 
+import java.util.Objects;
 import net.minecraft.text.Text;
 
 public final class EMHelpersTexts {
-	public static final String OPTION_ON = "emhelpers.option.on";
-	public static final String OPTION_OFF = "emhelpers.option.off";
-	public static final String OPTION_TOGGLE = "emhelpers.option.toggle";
-	public static final String OPTION_VALUE = "emhelpers.option.value";
-
-	public static final String SCREEN_HUD_LAYOUT_EDITOR = "emhelpers.screen.hud_layout_editor";
-	public static final String HUD_LAYOUT_EDITOR_HINT = "emhelpers.hud.layout_editor.hint";
-	public static final String HUD_LAYOUT_EDITOR_SAVE = "emhelpers.hud.layout_editor.save";
-	public static final String HUD_LAYOUT_EDITOR_CANCEL = "emhelpers.hud.layout_editor.cancel";
-	public static final String HUD_LAYOUT_EDITOR_RESET_ALL = "emhelpers.hud.layout_editor.reset_all";
-	public static final String HUD_LAYOUT_MODE_ANCHOR = "emhelpers.hud.layout_mode.anchor";
-	public static final String HUD_LAYOUT_MODE_CUSTOM = "emhelpers.hud.layout_mode.custom";
-
-	public static final String HUD_ANCHOR_TOP_LEFT = "emhelpers.hud.anchor.top_left";
-	public static final String HUD_ANCHOR_TOP_CENTER = "emhelpers.hud.anchor.top_center";
-	public static final String HUD_ANCHOR_TOP_RIGHT = "emhelpers.hud.anchor.top_right";
-	public static final String HUD_ANCHOR_BOTTOM_LEFT = "emhelpers.hud.anchor.bottom_left";
-	public static final String HUD_ANCHOR_BOTTOM_CENTER = "emhelpers.hud.anchor.bottom_center";
-	public static final String HUD_ANCHOR_BOTTOM_RIGHT = "emhelpers.hud.anchor.bottom_right";
+	private static String prefix = "emhelpers";
 
 	private EMHelpersTexts() {
+	}
+
+	public static void setPrefix(String newPrefix) {
+		prefix = Objects.requireNonNull(newPrefix, "prefix");
+	}
+
+	public static String prefix() {
+		return prefix;
+	}
+
+	public static String optionOn() {
+		return prefix + ".option.on";
+	}
+
+	public static String optionOff() {
+		return prefix + ".option.off";
+	}
+
+	public static String optionToggle() {
+		return prefix + ".option.toggle";
+	}
+
+	public static String optionValue() {
+		return prefix + ".option.value";
+	}
+
+	public static String screenHudLayoutEditor() {
+		return prefix + ".screen.hud_layout_editor";
+	}
+
+	public static String hudLayoutEditorHint() {
+		return prefix + ".hud.layout_editor.hint";
+	}
+
+	public static String hudLayoutEditorSave() {
+		return prefix + ".hud.layout_editor.save";
+	}
+
+	public static String hudLayoutEditorCancel() {
+		return prefix + ".hud.layout_editor.cancel";
+	}
+
+	public static String hudLayoutEditorResetAll() {
+		return prefix + ".hud.layout_editor.reset_all";
+	}
+
+	public static String hudLayoutModeAnchor() {
+		return prefix + ".hud.layout_mode.anchor";
+	}
+
+	public static String hudLayoutModeCustom() {
+		return prefix + ".hud.layout_mode.custom";
+	}
+
+	public static String hudAnchorTopLeft() {
+		return prefix + ".hud.anchor.top_left";
+	}
+
+	public static String hudAnchorTopCenter() {
+		return prefix + ".hud.anchor.top_center";
+	}
+
+	public static String hudAnchorTopRight() {
+		return prefix + ".hud.anchor.top_right";
+	}
+
+	public static String hudAnchorBottomLeft() {
+		return prefix + ".hud.anchor.bottom_left";
+	}
+
+	public static String hudAnchorBottomCenter() {
+		return prefix + ".hud.anchor.bottom_center";
+	}
+
+	public static String hudAnchorBottomRight() {
+		return prefix + ".hud.anchor.bottom_right";
 	}
 
 	public static Text toggleLabel(String optionKey) {

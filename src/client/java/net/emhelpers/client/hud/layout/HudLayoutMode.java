@@ -1,19 +1,20 @@
 package net.emhelpers.client.hud.layout;
 
+import java.util.function.Supplier;
 import net.emhelpers.client.util.EMHelpersTexts;
 
 public enum HudLayoutMode {
-	ANCHOR(EMHelpersTexts.HUD_LAYOUT_MODE_ANCHOR),
-	CUSTOM(EMHelpersTexts.HUD_LAYOUT_MODE_CUSTOM);
+	ANCHOR(EMHelpersTexts::hudLayoutModeAnchor),
+	CUSTOM(EMHelpersTexts::hudLayoutModeCustom);
 
-	private final String labelKey;
+	private final Supplier<String> labelKey;
 
-	HudLayoutMode(String labelKey) {
+	HudLayoutMode(Supplier<String> labelKey) {
 		this.labelKey = labelKey;
 	}
 
 	public String labelKey() {
-		return labelKey;
+		return labelKey.get();
 	}
 
 	public HudLayoutMode next() {

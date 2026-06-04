@@ -1,23 +1,24 @@
 package net.emhelpers.client.hud;
 
+import java.util.function.Supplier;
 import net.emhelpers.client.util.EMHelpersTexts;
 
 public enum HudOverlayAnchor {
-	TOP_LEFT(EMHelpersTexts.HUD_ANCHOR_TOP_LEFT),
-	TOP_CENTER(EMHelpersTexts.HUD_ANCHOR_TOP_CENTER),
-	TOP_RIGHT(EMHelpersTexts.HUD_ANCHOR_TOP_RIGHT),
-	BOTTOM_LEFT(EMHelpersTexts.HUD_ANCHOR_BOTTOM_LEFT),
-	BOTTOM_CENTER(EMHelpersTexts.HUD_ANCHOR_BOTTOM_CENTER),
-	BOTTOM_RIGHT(EMHelpersTexts.HUD_ANCHOR_BOTTOM_RIGHT);
+	TOP_LEFT(EMHelpersTexts::hudAnchorTopLeft),
+	TOP_CENTER(EMHelpersTexts::hudAnchorTopCenter),
+	TOP_RIGHT(EMHelpersTexts::hudAnchorTopRight),
+	BOTTOM_LEFT(EMHelpersTexts::hudAnchorBottomLeft),
+	BOTTOM_CENTER(EMHelpersTexts::hudAnchorBottomCenter),
+	BOTTOM_RIGHT(EMHelpersTexts::hudAnchorBottomRight);
 
-	private final String labelKey;
+	private final Supplier<String> labelKey;
 
-	HudOverlayAnchor(String labelKey) {
+	HudOverlayAnchor(Supplier<String> labelKey) {
 		this.labelKey = labelKey;
 	}
 
 	public String labelKey() {
-		return labelKey;
+		return labelKey.get();
 	}
 
 	public HudOverlayAnchor next() {

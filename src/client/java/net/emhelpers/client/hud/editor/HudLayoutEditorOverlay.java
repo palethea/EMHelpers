@@ -52,13 +52,13 @@ public final class HudLayoutEditorOverlay {
 	private boolean draggingOpacity;
 
 	private HudLayoutEditorOverlay(MinecraftClient client) {
-		this.resetButton = ButtonWidget.builder(Text.translatable(EMHelpersTexts.HUD_LAYOUT_EDITOR_RESET_ALL), button -> resetAllLayouts())
+		this.resetButton = ButtonWidget.builder(Text.translatable(EMHelpersTexts.hudLayoutEditorResetAll()), button -> resetAllLayouts())
 			.width(BUTTON_WIDTH)
 			.build();
-		this.saveButton = ButtonWidget.builder(Text.translatable(EMHelpersTexts.HUD_LAYOUT_EDITOR_SAVE), button -> saveAndClose())
+		this.saveButton = ButtonWidget.builder(Text.translatable(EMHelpersTexts.hudLayoutEditorSave()), button -> saveAndClose())
 			.width(BUTTON_WIDTH)
 			.build();
-		this.cancelButton = ButtonWidget.builder(Text.translatable(EMHelpersTexts.HUD_LAYOUT_EDITOR_CANCEL), button -> cancelAndClose())
+		this.cancelButton = ButtonWidget.builder(Text.translatable(EMHelpersTexts.hudLayoutEditorCancel()), button -> cancelAndClose())
 			.width(BUTTON_WIDTH)
 			.build();
 		refreshDimensions(client);
@@ -139,10 +139,10 @@ public final class HudLayoutEditorOverlay {
 		context.fill(0, 0, width, height, 0x66000000);
 
 		TextRenderer textRenderer = client.textRenderer;
-		context.drawCenteredTextWithShadow(textRenderer, Text.translatable(EMHelpersTexts.SCREEN_HUD_LAYOUT_EDITOR), width / 2, 12, 0xFFFFFF);
+		context.drawCenteredTextWithShadow(textRenderer, Text.translatable(EMHelpersTexts.screenHudLayoutEditor()), width / 2, 12, 0xFFFFFF);
 		context.drawCenteredTextWithShadow(
 			textRenderer,
-			Text.translatable(EMHelpersTexts.HUD_LAYOUT_EDITOR_HINT),
+			Text.translatable(EMHelpersTexts.hudLayoutEditorHint()),
 			width / 2,
 			24,
 			0xA0A0A0
