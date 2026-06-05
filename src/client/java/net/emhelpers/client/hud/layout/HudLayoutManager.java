@@ -124,16 +124,21 @@ public final class HudLayoutManager {
 		if (isEditing()) {
 			HudLayoutDraft draft = draftLayouts.get(id);
 			if (draft != null) {
-				return new HudOverlayPlacement.Position(draft.x(), draft.y());
+				return clampPosition(new HudOverlayPlacement.Position(draft.x(), draft.y()), screenWidth, screenHeight, dimensions);
 			}
 		}
 
 		HudCustomLayoutEntry entry = config.hudCustomLayoutEntry(id);
 		if (entry != null && entry.hasStoredPosition()) {
-			return new HudOverlayPlacement.Position(entry.x(), entry.y());
+			return clampPosition(new HudOverlayPlacement.Position(entry.x(), entry.y()), screenWidth, screenHeight, dimensions);
 		}
 
-		return HudLayoutRegistry.require(id).defaultPosition(config, screenWidth, screenHeight, dimensions);
+		return clampPosition(
+			HudLayoutRegistry.require(id).defaultPosition(config, screenWidth, screenHeight, dimensions),
+			screenWidth,
+			screenHeight,
+			dimensions
+		);
 	}
 
 	public static void openEditor(@Nullable MinecraftClient client) {
@@ -187,6 +192,7 @@ public final class HudLayoutManager {
 			HudOverlayPlacement.Position position = saved != null && saved.hasStoredPosition()
 				? new HudOverlayPlacement.Position(saved.x(), saved.y())
 				: element.defaultPosition(config, screenWidth, screenHeight, dimensions);
+			position = clampPosition(position, screenWidth, screenHeight, dimensions);
 			int opacity = layoutOpacity(id, config);
 			draftLayouts.put(id, new HudLayoutDraft(position.x(), position.y(), scale, opacity));
 		}
@@ -249,6 +255,7 @@ public final class HudLayoutManager {
 				screenHeight,
 				dimensions
 			);
+			position = clampPosition(position, screenWidth, screenHeight, dimensions);
 			draftLayouts.put(id, new HudLayoutDraft(
 				position.x(),
 				position.y(),
@@ -256,6 +263,18 @@ public final class HudLayoutManager {
 				clampLayoutOpacity(element.defaultOpacityPercent(config))
 			));
 		}
+	}
+
+	public static HudOverlayPlacement.Position clampPosition(
+		HudOverlayPlacement.Position position,
+		int screenWidth,
+		int screenHeight,
+		HudOverlayPlacement.PanelDimensions dimensions
+	) {
+		return new HudOverlayPlacement.Position(
+			clamp(position.x(), 0, Math.max(0, screenWidth - dimensions.width())),
+			clamp(position.y(), 0, Math.max(0, screenHeight - dimensions.height()))
+		);
 	}
 
 	public static void saveDraft(HudLayoutConfig config) {
@@ -306,6 +325,10 @@ public final class HudLayoutManager {
 
 	private static void discardLayoutSnapshot() {
 		layoutSnapshot = null;
+	}
+
+	private static int clamp(int value, int min, int max) {
+		return Math.max(min, Math.min(max, value));
 	}
 
 	/** @deprecated Use {@link #draftLayouts()} and {@link HudLayoutDraft}. */
