@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "emhelpers",
+  "version": "${version}",
+  "name": "EMHelpers",
+  "description": "Shared helper library for Palethea Fabric client mods on Minecraft ${minecraft_description}.",
+  "authors": ["Palethea"],
+  "contact": {
+    "homepage": "https://github.com/Palethea/EMHelpers",
+    "sources": "https://github.com/Palethea/EMHelpers"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/emhelpers/icon.png",
+  "environment": "client",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "${minecraft_dependency}",
+    "java": ">=${java_version}",
+    "fabric-api": "*"
+  }
+}
