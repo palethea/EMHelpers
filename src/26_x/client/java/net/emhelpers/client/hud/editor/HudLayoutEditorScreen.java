@@ -375,7 +375,7 @@ public final class HudLayoutEditorScreen extends Screen {
 
 	private void closeEditor() {
 		if (minecraft != null) {
-			minecraft.setScreen(parent);
+			minecraft.setScreenAndShow(parent);
 		}
 	}
 

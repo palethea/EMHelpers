@@ -1,13 +1,23 @@
 package net.emhelpers.client.hud.layout;
 
+import java.lang.reflect.Field;
 import net.minecraft.client.renderer.state.gui.BlitRenderState;
 import net.minecraft.client.renderer.state.gui.ColoredRectangleRenderState;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.client.renderer.state.gui.GuiTextRenderState;
 import net.minecraft.client.renderer.state.gui.TiledBlitRenderState;
+import org.joml.Matrix3x2f;
 import org.jspecify.annotations.Nullable;
 
 public final class HudLayoutEditorVanillaDimStates {
+	private static final Field TEXT_FONT = textField("font");
+	private static final Field TEXT_TEXT = textField("text");
+	private static final Field TEXT_X = textField("x");
+	private static final Field TEXT_Y = textField("y");
+	private static final Field TEXT_COLOR = textField("color");
+	private static final Field TEXT_BACKGROUND_COLOR = textField("backgroundColor");
+	private static final Field TEXT_DROP_SHADOW = textField("dropShadow");
+
 	private HudLayoutEditorVanillaDimStates() {
 	}
 
@@ -20,7 +30,7 @@ public final class HudLayoutEditorVanillaDimStates {
 			return new ColoredRectangleRenderState(
 				quad.pipeline(),
 				quad.textureSetup(),
-				quad.pose(),
+				new Matrix3x2f(quad.pose()),
 				quad.x0(),
 				quad.y0(),
 				quad.x1(),
@@ -35,7 +45,7 @@ public final class HudLayoutEditorVanillaDimStates {
 			return new BlitRenderState(
 				quad.pipeline(),
 				quad.textureSetup(),
-				quad.pose(),
+				new Matrix3x2f(quad.pose()),
 				quad.x0(),
 				quad.y0(),
 				quad.x1(),
@@ -53,7 +63,7 @@ public final class HudLayoutEditorVanillaDimStates {
 			return new TiledBlitRenderState(
 				quad.pipeline(),
 				quad.textureSetup(),
-				quad.pose(),
+				new Matrix3x2f(quad.pose()),
 				quad.tileWidth(),
 				quad.tileHeight(),
 				quad.x0(),
@@ -78,17 +88,31 @@ public final class HudLayoutEditorVanillaDimStates {
 			return state;
 		}
 
-		return new GuiTextRenderState(
-			state.font,
-			state.text,
-			state.pose,
-			state.x,
-			state.y,
-			HudLayoutEditorVanillaDim.dimColor(state.color),
-			HudLayoutEditorVanillaDim.dimColor(state.backgroundColor),
-			state.dropShadow,
-			false,
-			state.scissor
-		);
+		try {
+			return new GuiTextRenderState(
+				(net.minecraft.client.gui.Font) TEXT_FONT.get(state),
+				(net.minecraft.util.FormattedCharSequence) TEXT_TEXT.get(state),
+				state.pose,
+				TEXT_X.getInt(state),
+				TEXT_Y.getInt(state),
+				HudLayoutEditorVanillaDim.dimColor(TEXT_COLOR.getInt(state)),
+				HudLayoutEditorVanillaDim.dimColor(TEXT_BACKGROUND_COLOR.getInt(state)),
+				TEXT_DROP_SHADOW.getBoolean(state),
+				false,
+				state.scissor
+			);
+		} catch (IllegalAccessException exception) {
+			return state;
+		}
+	}
+
+	private static Field textField(String name) {
+		try {
+			Field field = GuiTextRenderState.class.getDeclaredField(name);
+			field.setAccessible(true);
+			return field;
+		} catch (ReflectiveOperationException exception) {
+			throw new ExceptionInInitializerError(exception);
+		}
 	}
 }

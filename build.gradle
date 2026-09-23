@@ -21,13 +21,13 @@ def mcFamilies = [
 	"26.x": [
 		sourcePath: "src/26_x/client/java",
 		resourcePath: "src/26_x/resources",
-		minecraftVersion: "26.1.2",
-		fabricApiVersion: "0.150.0+26.1.2",
+		minecraftVersion: "26.2",
+		fabricApiVersion: "0.152.1+26.2",
 		loaderVersion: "0.19.3",
 		javaVersion: 25,
 		mappingNamespace: "mojang",
-		minecraftDependency: "~26.1-",
-		minecraftDescription: "26.1-26.1.2",
+		minecraftDependency: "~26.2-",
+		minecraftDescription: "26.2",
 		archiveName: "EMHelpers-26.x.jar"
 	]
 ]
@@ -71,7 +71,7 @@ dependencies {
 	minecraft "com.mojang:minecraft:${selectedMc.minecraftVersion}"
 	if (selectedMc.mappingNamespace == "mojang") {
 		mappings loom.layered {
-			mappings(file("gradle/mappings/26.1.2-official-identity.tiny")) {
+			mappings(file("gradle/mappings/26.2-official-identity.tiny")) {
 				fallbackNamespaces("official", "named")
 			}
 		}

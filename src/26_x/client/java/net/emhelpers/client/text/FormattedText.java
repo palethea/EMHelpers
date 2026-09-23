@@ -66,7 +66,7 @@ public final class FormattedText {
 		if (color != null) {
 			ChatFormatting fmt = toFormatting(color);
 			if (fmt != null) {
-				sb.append("\u00a7").append(fmt.getChar());
+				sb.append(formattingCode(fmt));
 			}
 		}
 		if (style.isBold()) sb.append("\u00a7l");
@@ -78,6 +78,17 @@ public final class FormattedText {
 	}
 
 	private static ChatFormatting toFormatting(TextColor color) {
-		return ChatFormatting.getByName(color.serialize());
+		for (ChatFormatting formatting : ChatFormatting.values()) {
+			TextColor legacy = TextColor.fromLegacyFormat(formatting);
+			if (legacy != null && color.equals(legacy)) {
+				return formatting;
+			}
+		}
+
+		return null;
+	}
+
+	private static String formattingCode(ChatFormatting formatting) {
+		return formatting.toString();
 	}
 }

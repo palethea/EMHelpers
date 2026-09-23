@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import net.emhelpers.client.EMHelpers;
+import net.emhelpers.client.compat.MinecraftClientCompat;
 import net.emhelpers.client.hud.editor.HudLayoutEditorScreen;
 import net.emhelpers.client.hud.HudOverlayPlacement;
 import net.minecraft.client.Minecraft;
@@ -153,7 +154,7 @@ public final class HudLayoutManager {
 			return;
 		}
 
-		client.setScreen(new HudLayoutEditorScreen(client.screen));
+		client.setScreenAndShow(new HudLayoutEditorScreen(MinecraftClientCompat.screen(client)));
 	}
 
 	public static boolean beginEditorSession(@Nullable Minecraft client) {
